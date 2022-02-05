@@ -1,0 +1,11 @@
+h1 {
+    text-align: center;
+}
+
+a.remove_underline {
+    text-decoration: none;
+}
+
+.bold {
+    font-weight: bold;
+}
