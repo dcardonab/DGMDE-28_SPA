@@ -45,7 +45,7 @@ button {
     font-size: 100px;
     
     /* Three cells per row */
-    flex: 0 30%;
+    flex: 0 32%;
     
     /* Vertically align text content */
     display: flex;

@@ -115,7 +115,7 @@ function reset() {
     PLAY_STATE = true;
 
     // Hide messages
-    document.getElementById('messages').style.display = 'none';
+    document.getElementById('messages').innerHTML = '';
     document.getElementById('game_over').style.display = 'none';
 }
 
@@ -124,6 +124,9 @@ function play_move() {
     // Only allow user to input moves in PLAY state
     if (PLAY_STATE) {
         cell = this;
+
+        // Clear messages on each move
+        document.getElementById('messages').innerHTML = '';
         
         // Make move only if cell is available
         if (cell.classList.contains('empty')) {
