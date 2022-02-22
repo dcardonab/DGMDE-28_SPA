@@ -1,0 +1,93 @@
+/* -------------------- GENERAL -------------------- */
+body {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+}
+
+h1 {
+    /* 'vw' is a relative size, and 50px is added as a fallback for 
+       non modern browsers */
+    font-size: 40px;
+}
+
+button {
+    background-color: rgb(88, 88, 255);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: inherit;
+
+    display: flex;
+    font-family: inherit;
+    margin: 25px auto;
+    padding: 14px;
+}
+
+.center {
+    text-align: center;
+}
+
+#game_over {
+    display: none;
+    justify-content: center;
+}
+
+#messages {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* -------------------- GRID -------------------- */
+.cell {
+    border-color: black !important;
+    height: 150px;
+    font-size: 100px;
+    
+    /* Three cells per row */
+    flex: 0 33%;
+    
+    /* Vertically align text content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.empty:hover {
+    background-color: lightgray;
+}
+
+#board {
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif !important;
+    
+    /* Flex and Spacing Properties */
+    max-width: 500px;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    padding: 20px 50px;
+}
+
+#cell_1,#cell_2,#cell_4,#cell_5 {
+    border-bottom: solid;
+    border-right: solid;
+}
+
+#cell_7,#cell_8 {
+    border-right: solid;
+}
+
+#cell_3,#cell_6 {
+    border-bottom: solid;
+}
+
+/* -------------------- PLAYER COLORS -------------------- */
+.o_player {
+    color: blue;
+}
+
+.x_player {
+    color: red;
+}
