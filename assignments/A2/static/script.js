@@ -106,14 +106,11 @@ function reset() {
     // Clear all cells by removing text and styling classes, and setting them as empty
     cells = document.querySelectorAll('.cell');
     cells.forEach(cell => {
-        cell.innerHTML = '';
-        if (cell.classList.contains('O_player')) {
-            cell.classList.remove('O_player');
+        // Reset classes and content of non-empty cells
+        if (!cell.classList.contains('empty')) {
+            cell.classList.contains('X_player') ? cell.classList.remove('X_player') : cell.classList.remove('O_player');
             cell.classList.add('empty');
-        }
-        else if (cell.classList.contains('X_player')) {
-            cell.classList.remove('X_player');
-            cell.classList.add('empty');
+            cell.innerHTML = '';
         }
     });
 
