@@ -6,9 +6,19 @@
         <script language="javascript" src="static/script.js"></script>
     </head>
     <body>
-        <h1 class="center">TIC-TAC-TOE!</h1><hr />
+        <h1 class="center">TIC-TAC-TOE!</h1><hr /><br />
+
+        <div class="center" id="score">
+            <strong>
+                <span class="X_player" id="X_score">X = 0</span> | <span class="O_player" id="O_score">O = 0</span>
+            </strong>
+        </div>
+
         <button id="new_game_button">NEW GAME</button>
+
         <div id="board"></div>
+
+        <!-- Notifications -->
         <div class="center">
             <div id="messages"></div>
             <strong id="game_over">GAME OVER</strong>

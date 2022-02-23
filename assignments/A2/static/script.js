@@ -1,6 +1,8 @@
 //-------------------- GLOBAL VARIABLES --------------------//
 var PLAY_STATE = true;
 var CURRENT_PLAYER = 'X';
+var SCORE_X = 0;
+var SCORE_O = 0;
 
 
 //-------------------- INIT --------------------//
@@ -83,10 +85,17 @@ function game_over(winner='') {
     PLAY_STATE = false;
 
     // Display message
-    if (winner != '')
-        display_message("Player " + winner + " won!");
+    if (winner != '') {
+        // Update score
+        if (winner === 'X')
+            document.getElementById('X_score').innerText = 'X = ' + ++SCORE_X;
+        else
+            document.getElementById('O_score').innerText = 'O = ' + ++SCORE_O;
+
+        display_message("Player " + winner + " won! Congratulations!");
+    }
     else
-        display_message("Draw!");
+        display_message("Stalemate!");
 
     // Display 'GAME OVER' div
     document.getElementById('game_over').style.display = 'block';
@@ -98,12 +107,12 @@ function reset() {
     cells = document.querySelectorAll('.cell');
     cells.forEach(cell => {
         cell.innerHTML = '';
-        if (cell.classList.contains('o_player')) {
-            cell.classList.remove('o_player');
+        if (cell.classList.contains('O_player')) {
+            cell.classList.remove('O_player');
             cell.classList.add('empty');
         }
-        else if (cell.classList.contains('x_player')) {
-            cell.classList.remove('x_player');
+        else if (cell.classList.contains('X_player')) {
+            cell.classList.remove('X_player');
             cell.classList.add('empty');
         }
     });
@@ -130,11 +139,11 @@ function play_move() {
         if (cell.classList.contains('empty')) {
             if (CURRENT_PLAYER === 'X') {
                 // Style and add player's the icon
-                cell.classList.add('x_player');
+                cell.classList.add('X_player');
                 cell.innerHTML = 'X';
                 CURRENT_PLAYER = 'O';
             } else {
-                cell.classList.add('o_player');
+                cell.classList.add('O_player');
                 cell.innerText = 'O';
                 CURRENT_PLAYER = 'X';
             }

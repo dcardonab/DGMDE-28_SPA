@@ -84,10 +84,10 @@ button {
 }
 
 /* -------------------- PLAYER COLORS -------------------- */
-.o_player {
+.O_player {
     color: blue;
 }
 
-.x_player {
+.X_player {
     color: red;
 }
