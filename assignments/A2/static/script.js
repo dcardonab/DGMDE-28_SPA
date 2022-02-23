@@ -41,8 +41,6 @@ function create_grid() {
 
 
 function check_winner() {
-    console.log("check_winner() executing")
-
     cells = document.querySelectorAll('.cell');
 
     // Check rows
@@ -54,7 +52,7 @@ function check_winner() {
         return game_over(cells[6].innerText);
 
     // Check columns
-    if (check_equal(cells[0], cells[3], cells[6]))
+    else if (check_equal(cells[0], cells[3], cells[6]))
         return game_over(cells[0].innerText);
     else if (check_equal(cells[1], cells[4], cells[7]))
         return game_over(cells[1].innerText);
@@ -67,7 +65,6 @@ function check_winner() {
     else if (check_equal(cells[2], cells[4], cells[6]))
         return game_over(cells[2].innerText);
 
-    console.log("Check for empty cells")
     // If no player has won, check if there are any available cells
     // REF: https://developer.mozilla.org/en-US/docs/Web/API/NodeList/values
     for (let cell of cells.values()) {
@@ -83,30 +80,31 @@ function check_winner() {
 
 function game_over(winner='') {
     // Switch boolean to prevent additional user input
-    PLAY_STATE = false
+    PLAY_STATE = false;
 
     // Display message
     if (winner != '')
-        display_message("Player " + winner + " won!")
+        display_message("Player " + winner + " won!");
     else
-        display_message("Draw!")
+        display_message("Draw!");
 
+    // Display 'GAME OVER' div
     document.getElementById('game_over').style.display = 'block';
 };
 
 
 function reset() {
-    // Clear all cells
-    cells = document.querySelectorAll('.cell')
+    // Clear all cells by removing text and styling classes, and setting them as empty
+    cells = document.querySelectorAll('.cell');
     cells.forEach(cell => {
         cell.innerHTML = '';
         if (cell.classList.contains('o_player')) {
-            cell.classList.remove('o_player')
-            cell.classList.add('empty')
+            cell.classList.remove('o_player');
+            cell.classList.add('empty');
         }
         else if (cell.classList.contains('x_player')) {
-            cell.classList.remove('x_player')
-            cell.classList.add('empty')
+            cell.classList.remove('x_player');
+            cell.classList.add('empty');
         }
     });
 
@@ -145,7 +143,8 @@ function play_move() {
             // This will also prevent changing background when hovering
             cell.classList.remove('empty');
             
-            check_winner()
+            // Check if the move caused a player to win.
+            check_winner();
         }
 
         else
