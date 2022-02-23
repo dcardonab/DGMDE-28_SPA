@@ -137,16 +137,12 @@ function play_move() {
         
         // Make move only if cell is available
         if (cell.classList.contains('empty')) {
-            if (CURRENT_PLAYER === 'X') {
-                // Style and add player's the icon
-                cell.classList.add('X_player');
-                cell.innerHTML = 'X';
-                CURRENT_PLAYER = 'O';
-            } else {
-                cell.classList.add('O_player');
-                cell.innerText = 'O';
-                CURRENT_PLAYER = 'X';
-            }
+            // Style and add player's the icon to the cell
+            cell.classList.add(CURRENT_PLAYER + '_player');
+            cell.innerText = CURRENT_PLAYER;
+
+            // Switch player
+            CURRENT_PLAYER = CURRENT_PLAYER === 'X' ? 'O' : 'X';
             
             // Make cell unavailable
             // This will also prevent changing background when hovering
