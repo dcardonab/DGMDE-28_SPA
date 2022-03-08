@@ -236,13 +236,13 @@
                 // The 'victory' function with a value of 'true' means that the
                 // player won. A value of 'false' means that the dealer won.
                 if (player_sum > 21)
-                    victory(false);
+                    victory('dealer');
                 else if (dealer_sum > 21)
-                    victory(true);
+                    victory('player');
                 else if (dealer_sum === player_sum)
-                    victory(false);     // A tie is a victory for the dealer.
+                    victory('tie');
                 else
-                    victory(player_sum > dealer_sum ? true : false);
+                    victory(player_sum > dealer_sum ? 'player' : 'dealer');
             }
 
             function deal() {
@@ -329,15 +329,22 @@
                 check_winner();
             }
 
-            function victory(player_won) {
+            function victory(victor) {
                 // Reset bet input field
                 document.getElementById('bet_value').value = 0;
                 show_hide_element('play_options', false);
 
-                if (player_won) {
+                if (victor === 'player') {
                     // Pay player.
                     PLAYER.wallet.add(PLAYER.bet * 2);
                     display_message('Player won!<br />Place a new bet to play again!')
+                    // Show betting elements
+                    show_hide_element('bet_div', true);
+                }
+                else if (victor === 'tie') {
+                    // Return bet to player
+                    PLAYER.wallet.add(PLAYER.bet);
+                    display_message('Tie!<br />Place a new bet to play again!')
                     // Show betting elements
                     show_hide_element('bet_div', true);
                 }
