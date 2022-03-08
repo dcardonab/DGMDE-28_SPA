@@ -1,0 +1,52 @@
+div {
+    /* Vertically align text content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+input {
+    background-color: rgb(241, 241, 241);
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+}
+
+input[type='number'] {
+    width: 30%;
+    text-align: left;
+}
+
+h1,h2 {
+    text-align: center;
+}
+
+hr {
+    width: 100%;
+}
+
+table {
+    border: solid;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+td {
+    border: solid;
+    padding: 20px;
+}
+
+th {
+    background-color: rgb(233, 233, 233);
+    border: solid;
+    padding: 10px 0px;
+}
+
+#container {
+    /* Flex and Spacing Properties */
+    align-items: center;
+    display: flex;
+    margin: auto;
+    padding: 20px 50px;
+}

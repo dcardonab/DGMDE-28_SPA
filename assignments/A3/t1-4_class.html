@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <title>A3 - Task 1 - Classes</title>
+        <link href="static/task1_styles.css" rel="stylesheet">
+        <script language="javascript">
+            // Class
+            class Item {
+                constructor(name, price) {
+                    this.name = name;
+                    this.price = price;
+                }
+            }
+
+            // Create items
+            hotdog = new Item('hotdog', 4);
+            fries = new Item('fries', 3.5);
+            soda = new Item('soda', 1.5);
+            sauerkraut = new Item('sauerkraut', 1.5);
+
+            // Create a collection with all the items in the menu
+            items = [hotdog, fries, soda, sauerkraut];
+
+
+            window.onload = () => {
+                // Display menu
+                show_menu();
+
+                // Attach event listener to submit button
+                document.getElementById('submit_order').addEventListener('click', calculate_total);
+            }
+
+            function show_menu() {
+                // Create a form that contains a menu table
+                let menu = "<form id='menu'><table><tr>" + "<th>Item</th>" + "<th>Price</th>" + "<th>Quantity</th></tr>";
+                for (i in items) {
+                    menu += `<tr><td><label for=${items[i].name}>${items[i].name.toUpperCase()}</label></td>` +
+                            `<td>$${items[i].price.toFixed(2)}</td>` +
+                            `<td><input type=number min='0' id='${items[i].name}' name='${items[i].name}' value=0></td></tr>`;
+                }
+                menu += "</table><input type='button' id='submit_order' value='Place Order'></form>";
+
+                // Display menu
+                document.getElementById('menu').innerHTML = menu;
+            }
+
+            function calculate_total() {
+                // Array to keep track of the items that need to be displayed.
+                let order = [];
+                let total = 0;
+                for (i in items) {
+                    let v = parseInt(document.getElementById(items[i].name).value);
+                    // Only consider items greater than 0 for summing.
+                    if (v != 0) {
+                        total += items[i].price * v;
+                        order[items[i].name] = v;
+                    }
+                }
+                display_order(order, total);
+            }
+
+            function display_order(order, total) {
+                let s = '<h2>Your Order</h2>';
+                for (i in order) {
+                    s += order[i] + ' ' + i[0].toUpperCase() + i.substring(1);
+                    s += order[i] > 1 && i != 'fries' ? 's<br />' : '<br />';
+                }
+                s += `<br /><strong>Order total: $${total.toFixed(2)}`;
+                document.getElementById('order').innerHTML = s;
+            }
+        </script>
+    </head>
+    <body>
+        <div id='container'>
+            <h1>Joe's Hotdogs</h1><hr />
+            <h2>Menu</h2>
+            <div id='menu'></div>
+            <div id='order'></div>
+        </div>
+    </body>
+</html>

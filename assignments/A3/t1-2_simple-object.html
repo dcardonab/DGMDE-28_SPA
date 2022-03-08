@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <title>A3 - Task 1 - Simple Objects</title>
+        <link href="static/task1_styles.css" rel="stylesheet">
+        <script language="javascript">
+            // Create simple object
+            var items = {
+                hotdog: 4,
+                fries: 3.5,
+                soda: 1.5,
+                sauerkraut: 1.5
+            }
+
+            window.onload = () => {
+                // Display menu
+                show_menu();
+
+                // Attach event listener to submit button
+                document.getElementById('submit_order').addEventListener('click', calculate_total);
+            }
+
+            function show_menu() {
+                // Create a form that contains a menu table
+                let menu = "<form id='menu'><table><tr>" + "<th>Item</th>" + "<th>Price</th>" + "<th>Quantity</th></tr>";
+                // This is a better approach to iterating over a JS object, since Object.keys()
+                // will return a collection with numbered sequential indices as keys where the values
+                // are the keys of the object passed in as an argument. This makes the code harder to read.
+                for (k in items) {
+                    menu += `<tr><td><label for=${k}>${k.toUpperCase()}</label></td>` +
+                            `<td>$${items[k].toFixed(2)}</td>` +
+                            `<td><input type=number min='0' id='${k}' name='${k}' value=0></td></tr>`;
+                }
+                menu += "</table><input type='button' id='submit_order' value='Place Order'></form>";
+
+                // Display menu
+                document.getElementById('menu').innerHTML = menu;
+            }
+
+            function calculate_total() {
+                // Array to keep track of the items that need to be displayed.
+                let order = [];
+                let total = 0;
+                for (i in items) {
+                    let v = parseInt(document.getElementById(i).value);
+                    // Only consider items greater than 0 for summing.
+                    if (v != 0) {
+                        total += items[i] * v;
+                        order[i] = v;
+                    }
+                }
+                display_order(order, total);
+            }
+
+            function display_order(order, total) {
+                let s = '<h2>Your Order</h2>';
+                for (i in order) {
+                    s += order[i] + ' ' + i[0].toUpperCase() + i.substring(1);
+                    s += order[i] > 1 && i != 'fries' ? 's<br />' : '<br />';
+                }
+                s += `<br /><strong>Order total: $${total.toFixed(2)}`;
+                document.getElementById('order').innerHTML = s;
+            }
+        </script>
+    </head>
+    <body>
+        <div id='container'>
+            <h1>Joe's Hotdogs</h1><hr />
+            <h2>Menu</h2>
+            <div id='menu'></div>
+            <div id='order'></div>
+        </div>
+    </body>
+</html>
