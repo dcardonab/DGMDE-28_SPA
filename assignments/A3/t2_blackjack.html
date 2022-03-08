@@ -70,7 +70,7 @@
                     this.shuffle(cards);
                 }
 
-                display_cards_in_deck(cards_num) {
+                display_cards_in_deck(cards_num=this.cards.length) {
                     document.getElementById('cards_in_deck').innerHTML = "Remaining Deck Cards: " + cards_num;
                 }
 
@@ -175,6 +175,16 @@
                     this.bet = 0;
                 }
 
+                display_bet() {
+                    // 'replace' method in use to remove leading zeros
+                    // REF: https://www.codegrepper.com/code-examples/javascript/javascript+remove+leading+zeros+from+string
+                    document.getElementById('current_bet').innerHTML = 'Current bet: $' + this.bet.toString().replace(/^0+/, '');
+                }
+
+                double_bet() {
+                    this.place_bet(this.bet);
+                }
+
                 place_bet(value) {
                     if (value === '0') {
                         display_message('You must place a bet!')
@@ -185,9 +195,7 @@
                         this.wallet.subtract(value);
                         this.bet += value;
 
-                        // 'replace' method in use to remove leading zeros
-                        // REF: https://www.codegrepper.com/code-examples/javascript/javascript+remove+leading+zeros+from+string
-                        document.getElementById('current_bet').innerHTML = 'Current bet: $' + this.bet.toString().replace(/^0+/, '');
+                        this.display_bet();
 
                         return true;
                     }
@@ -196,10 +204,6 @@
                         this.wallet.insufficient_funds();
                         return false;
                     }
-                }
-
-                double_bet() {
-                    this.place_bet(this.bet);
                 }
             }
 
@@ -282,21 +286,28 @@
             }
 
             function double_down() {
-                // A double down is a request for 1 last card and doubles the bet.
-                display_message('Bet doubled!');
-                PLAYER.double_bet();
-                draw(PLAYER);
-                stand();
+                // Make sure the player has enough to complete the double down
+                if (PLAYER.wallet.amount > PLAYER.bet) {
+                    // A double down is a request for 1 last card and doubles the bet.
+                    display_message('Bet doubled!');
+                    PLAYER.double_bet();
+                    draw(PLAYER);
+                    stand();
+                }
+                else {
+                    show_hide_element('messages', true);
+                    PLAYER.wallet.insufficient_funds();
+                }
             }
 
             function flush_hand(p) {
-                console.log(PLAYED_CARDS);
                 if (DECK.reset){
                     PLAYED_CARDS = [];
                     DECK.reset = false;
                 }
                 PLAYED_CARDS = PLAYED_CARDS.concat(p.hand);
                 p.hand = [];
+                p.show_cards();
             }
             
             function place_bet() {
@@ -313,6 +324,26 @@
                 }
             }
 
+            function play_again() {
+                // Give player a new wallet.
+                PLAYER.wallet = new Wallet();
+                PLAYER.wallet.display_value();
+
+                // Reset bet.
+                PLAYER.bet = 0;
+
+                // Flush hands and pass all played cards into the deck.
+                flush_hand(PLAYER);
+                flush_hand(DEALER);
+                DECK.add_cards_to_deck(PLAYED_CARDS);
+
+                // Set UI.
+                show_hide_element('current_bet', false);
+                show_hide_element('messages', false);
+                show_hide_element('play_again', false);
+                show_hide_element('bet_div', true);
+            }
+
             function stand() {
                 // Hide all buttons
                 show_hide_element('play_options', false);
@@ -321,9 +352,22 @@
                 DEALER.hand.forEach(card => card.show_hide(true));
                 DEALER.show_cards();
 
-                // Draw cards as long as the dealer's hand total is lesser than 16
-                while (DEALER.hand_total() < PLAYER.hand_total()) {
-                    draw(DEALER);
+                // This condition is important since the 'double_down' function
+                // executes 'draw' followed by the 'stand' function. Without this
+                // condition, The dealer will continue to draw even if the player's
+                // draw were to result in a value over 21.
+                if (PLAYER.hand_total() <= 21) {
+                    /* As per Vegas rules, the dealer will draw cards as long as
+                     * their hand's total is lesser than 17. This is not dependent
+                     * on the value that the player has. The player can choose to
+                     * stand if they think that the dealer will bust. The player's
+                     * actions are inconsequential to the dealer's action as
+                     * blackjack is generally a 1:6 game and not a 1:1 game.
+                     * See "The Dealer's Play" at: https://bicyclecards.com/how-to-play/blackjack/
+                     */ 
+                    while (DEALER.hand_total() < 17) {
+                        draw(DEALER);
+                    }
                 }
 
                 check_winner();
@@ -349,9 +393,11 @@
                     show_hide_element('bet_div', true);
                 }
                 else {
-                    if (PLAYER.wallet.amount == 0)
+                    if (PLAYER.wallet.amount == 0) {
                         // Declare game over when the player has no money left.
                         display_message('Dealer won.<br />GAME OVER!');
+                        show_hide_element('play_again', true);
+                    }
                     else {
                         display_message('Dealer won.<br />Place a new bet to play again!');
                         // Show betting elements
@@ -376,6 +422,7 @@
                 // REF: https://stackoverflow.com/questions/696241/class-method-cant-access-properties
                 document.getElementById('hit').addEventListener('click', () => draw(PLAYER));
                 document.getElementById('double').addEventListener('click', double_down);
+                document.getElementById('play_again').addEventListener('click', play_again);
             }
 
             display_message = (message) => {
@@ -407,6 +454,7 @@
 
                 // Init routine
                 show_hide_element('play_options', false);
+                show_hide_element('play_again', false);
                 add_events();
             }
         </script>
@@ -450,7 +498,9 @@
                         </td>
                     </tr>
                 </table>
-            </div><hr class="secondary_hr"/>
+            </div>
+            <div id="play_again"><button id='play_again'>Play Again</button></div>
+            <hr class="secondary_hr"/>
 
             <!-- PLAYER SECTION -->
             <div id="player">
