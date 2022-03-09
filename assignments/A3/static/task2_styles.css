@@ -76,13 +76,6 @@ td {
 }
 
 @media (max-width: 600px) {
-    #container {
-        /* Flex and Spacing Properties */
-        align-items: center;
-        display: flex;
-        margin: auto;
-        padding: 20px 50px;
-    }
     .secondary_hr {
         width: 100%;
     }
