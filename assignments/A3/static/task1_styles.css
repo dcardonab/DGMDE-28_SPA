@@ -1,3 +1,8 @@
+body {
+    background-color: rgb(207, 226, 233);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 div {
     /* Vertically align text content */
     display: flex;
@@ -13,21 +18,33 @@ input {
     text-align: center;
 }
 
+input[type='button'] {
+    background-color: rgb(56, 69, 255);
+    border: 2px solid rgb(238, 238, 238);
+    color: white;
+    height: 35px;
+    text-align: center;
+    width: 100px;
+}
+
 input[type='number'] {
-    width: 30%;
+    margin: 0px 20px;
     text-align: left;
+    width: 40px;
 }
 
 h1,h2 {
+    color: rgb(228, 26, 26);
     text-align: center;
 }
 
 hr {
+    border-top: black solid;
     width: 100%;
 }
 
 table {
-    border: solid;
+    border: 3px solid;
     border-collapse: collapse;
     margin-bottom: 20px;
 }
@@ -38,8 +55,9 @@ td {
 }
 
 th {
-    background-color: rgb(233, 233, 233);
+    background-color: rgb(176, 191, 197);
     border: solid;
+    border-bottom: 3px solid;
     padding: 10px 0px;
 }
 
