@@ -10,7 +10,6 @@ button {
 
 div {
     /* Vertically align text content */
-    display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
@@ -74,4 +73,17 @@ td {
 
 .secondary_hr {
     width: 50%;
+}
+
+@media (max-width: 600px) {
+    #container {
+        /* Flex and Spacing Properties */
+        align-items: center;
+        display: flex;
+        margin: auto;
+        padding: 20px 50px;
+    }
+    .secondary_hr {
+        width: 100%;
+    }
 }
