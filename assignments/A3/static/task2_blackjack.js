@@ -116,6 +116,7 @@ class Dealer {
             for (let i = 0; i < this.hand.length; i++) {
                 let card = this.hand[i];
 
+                // Skip dealer's hidden card
                 if (!card.visibile)
                     continue;    
 
@@ -138,6 +139,10 @@ class Dealer {
                     if (this.hand[a_indices[a]].value === 11) {
                         this.hand[a_indices[a]].value = 1;
                         sum -= 10;
+                        // This ensures that the value of all A cards
+                        // isn't updated if unnecessary.
+                        if (sum > 21)
+                            break;
                     }
                 }
             }
@@ -185,6 +190,7 @@ class Player extends Dealer {
             display_message('You must place a bet!')
             return false;
         }
+
         else if (value <= this.wallet.amount) {
             value = parseInt(value);
             this.wallet.subtract(value);
@@ -296,10 +302,17 @@ function double_down() {
 }
 
 function flush_hand(p) {
+    // Revert value of A cards back to 11 when flushing.
+    for (let c in p.hand) {
+        if (p.hand[c].value === 1)
+            c.value = 11;
+    }
+
     if (DECK.reset){
         PLAYED_CARDS = [];
         DECK.reset = false;
     }
+
     PLAYED_CARDS = PLAYED_CARDS.concat(p.hand);
     p.hand = [];
     p.show_cards();
@@ -320,9 +333,10 @@ function place_bet() {
 }
 
 function play_again() {
-    // Give player a new wallet.
+    // Give player a new wallet and reset bet field.
     PLAYER.wallet = new Wallet();
     PLAYER.wallet.display_value();
+    document.getElementById('bet_value').max = PLAYER.wallet.amount;
 
     // Reset bet.
     PLAYER.bet = 0;
@@ -376,32 +390,31 @@ function victory(victor) {
     if (victor === 'player') {
         // Pay player.
         PLAYER.wallet.add(PLAYER.bet * 2);
-        display_message('Player won!<br />Place a new bet to play again!')
-        // Show betting elements
-        show_hide_element('bet_div', true);
+        victory_message('Player won!<br />Place a new bet to play again!', 'bet_div');
     }
     else if (victor === 'tie') {
         // Return bet to player
         PLAYER.wallet.add(PLAYER.bet);
-        display_message('Tie!<br />Place a new bet to play again!')
-        // Show betting elements
-        show_hide_element('bet_div', true);
+        victory_message('Tie!<br />Place a new bet to play again!', 'bet_div');
     }
     else {
-        if (PLAYER.wallet.amount == 0) {
-            // Declare game over when the player has no money left.
-            display_message('Dealer won.<br />GAME OVER!');
-            show_hide_element('play_again', true);
-        }
-        else {
-            display_message('Dealer won.<br />Place a new bet to play again!');
-            // Show betting elements
-            show_hide_element('bet_div', true);
-        }
+        // Declare game over when the player has no money left.
+        if (PLAYER.wallet.amount == 0)
+            victory_message('Dealer won.<br />GAME OVER!', 'play_again');
+        else
+            victory_message('Dealer won.<br />Place a new bet to play again!', 'bet_div');
     }
 
     // Reset bet
     PLAYER.bet = 0;
+}
+
+function victory_message(message, element) {
+    // Update max value of input field
+    document.getElementById('bet_value').max = PLAYER.wallet.amount;
+    display_message(message);
+    // Show betting elements
+    show_hide_element(element, true);
 }
 
 
