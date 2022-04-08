@@ -16,8 +16,12 @@ table {
     padding: 0px 50px;
 }
 
-#game_content {
+#game_content, #open_keyboard_button {
     display: none;
+}
+
+#hidden_input {
+    visibility: hidden;
 }
 
 .bg_dark_gray {
