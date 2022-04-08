@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Wordle</title>
+        <link href="static/styles.css" rel="stylesheet">
+        <script type="text/javascript" src="static/script.js"></script>
+    </head>
+    <body>
+        <div id="container">
+            <h1 class="center">Wordle</h1><hr class="bottom_margin" />
+            <div class="bottom_margin center" id="messages">Choose mode!</div>
+
+            <!-- Gameplay Buttons -->
+            <div class="center" id="buttons">
+                <button id="new_game_button">New Game</button>
+                <button id="new_game_button_debug">New Game - Debug</button>
+            </div><br />
+
+            <!-- Main Content -->
+            <div class="center" id="game_content">
+                <div class="float_child bottom_margin" id="grid"></div>
+
+                <!-- Info -->
+                <div class="float_child">
+                    <!-- Keys -->
+                    <div class="bottom_margin">
+                        <h3 class="center">Used Keys</h3><br />
+                        <span id="used_keys"></span>
+                    </div>
+
+                    <!-- Debug -->
+                    <div id="debug">
+                        <div class="bottom_margin">
+                            <h3 class="center">Word to Guess</h3>
+                            <span id="word"></span>
+                        </div>
+                        <div class="bottom_margin">
+                            <h3 class="center">Definition</h3>
+                            <span id="definition"></span>
+                        </div>
+                    </div>
+
+                    <!-- Score -->
+                    <div class="score_box">
+                        <div class="bottom_margin">
+                            <h3 class="center">Score</h3>
+                            Total - <span id="total_score">0</span>
+                        </div>
+                        <div>
+                            <table>
+                                <th>Number of Guesses</th>
+                                <tr><td>1 - <span id="score_1">0</span></td></tr>
+                                <tr><td>2 - <span id="score_2">0</span></td></tr>
+                                <tr><td>3 - <span id="score_3">0</span></td></tr>
+                                <tr><td>4 - <span id="score_4">0</span></td></tr>
+                                <tr><td>5 - <span id="score_5">0</span></td></tr>
+                                <tr><td>6 - <span id="score_6">0</span></td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
