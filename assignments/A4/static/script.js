@@ -6,7 +6,7 @@ class Cell {
         this.row = row;
         this.col = column;
         this.value = SPACE;  // Initial content is a space to maintain cell size.
-        this.bg_color = 'gray';
+        this.bg_color = 'bg_dark_gray';
     }
 
     display = () => `<div class="cell ${this.bg_color}" id="r${this.row}_c${this.col}" >${this.value}</div>`;
@@ -204,7 +204,7 @@ async function check_key(e) {
             if (GRID.rows[row-1].cells[4].value != SPACE) {
                 let word = await check_word();
                 if (!word) 
-                    display_message("The word you input is not in the dictionary.");
+                    display_message("The word you input is not in the dictionary.<br />Please use the delete key and try again.");
                 
                 else {
                     if (compare_word(word))
@@ -222,6 +222,9 @@ async function check_key(e) {
                     display_GUI();
                 }
             }
+
+            else
+                display_message("Your guess must be 5 letters long.");
         }
     }
 }
@@ -251,17 +254,38 @@ async function check_word() {
 
 function compare_word(word) {
     let matches_counter = 0;
+
+    let letters = [];
+    // Count how many of each letters are present in the word.
+    for (let letter in WORD) {
+        // Check if a key has already been created for a given letter.
+        if (!(WORD[letter] in letters))
+            letters[WORD[letter]] = WORD.split(WORD[letter]).length - 1;
+    }
+
     for (let i = 0; i < 5; i++) {
-        if (!WORD.includes(word[i]))
-            continue;
-        
+        // If the letter is present in the word to be guessed and in the right position,
+        // color the background green.
         if (WORD[i] === word[i]) {
-            GRID.rows[CURRENT_CELL['row']-1].cells[i].set_background_color('green');
+            GRID.rows[CURRENT_CELL['row']-1].cells[i].set_background_color('bg_green');
+            letters[word[i]]--;
             matches_counter++;
             continue;
         }
 
-        GRID.rows[CURRENT_CELL['row']-1].cells[i].set_background_color('yellow');
+        // If the letter is present in the word to be guessed and in the wrong position,
+        // color the background yellow.
+        // Check if the letter is present in the substring, ensuring that there are only
+        // as many yellow cells as the amount of letters in the word to be guessed.
+        if (word[i] in letters && letters[word[i]] != 0) {
+            letters[word[i]]--;
+            GRID.rows[CURRENT_CELL['row']-1].cells[i].set_background_color('bg_yellow');
+            continue;
+        }
+
+        // If the letter is not present in the word to be guessed,
+        // color the background gray.
+        GRID.rows[CURRENT_CELL['row']-1].cells[i].set_background_color('bg_gray');
     }
 
     if (matches_counter === 5)
@@ -326,7 +350,7 @@ function new_game(debug) {
 
     // Reset board.
     GRID.rows.forEach(r => r.cells.forEach(c => c.set_value(SPACE)));
-    GRID.rows.forEach(r => r.cells.forEach(c => c.set_background_color('gray')));
+    GRID.rows.forEach(r => r.cells.forEach(c => c.set_background_color('bg_dark_gray')));
 
     // Display grid and information sections.
     display_GUI();

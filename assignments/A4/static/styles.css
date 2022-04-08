@@ -1,5 +1,5 @@
 body {
-    background-color: #3b3b3b;
+    background-color: #2c2c2c;
     color: #FFFFFF;
     font-family: monospace;
 }
@@ -18,6 +18,22 @@ table {
 
 #game_content {
     display: none;
+}
+
+.bg_dark_gray {
+    background-color: #2c2c2c;
+}
+
+.bg_gray {
+    background-color: #3b3b3b;
+}
+
+.bg_green {
+    background-color: #087e1e;
+}
+
+.bg_yellow {
+    background-color: #877c0a;
 }
 
 .bottom_margin {
@@ -42,21 +58,9 @@ table {
     float: left;
 }
 
-.gray {
-    background-color: #3b3b3b;
-}
-
-.green {
-    background-color: #087e1e;
-}
-
 .score_box {
     border: 1px solid white;
     padding: 20px 0px;
-}
-
-.yellow {
-    background-color: #877c0a;
 }
 
 @media (max-width: 730px) {
