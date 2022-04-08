@@ -384,14 +384,10 @@ function set_event_listeners() {
 
     // Check if player is on mobile device. If so, add event handlers to display the keyboard.
     // This is important since no keyboard field is being shown.
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        // Show button to show keyboard
-        display_element('open_keyboard_button', 'block');
-        document.getElementById('open_keyboard_button').addEventListener('click', () => {
-            let input = document.getElementById('hidden_input');
-            input.focus();
-        });
-    }
+    // REF: https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+        // Show field to get keyboard input
+        display_element('mobile', 'block');
 }
 
 
