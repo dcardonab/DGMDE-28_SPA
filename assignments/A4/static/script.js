@@ -313,7 +313,8 @@ function game_over(victory) {
 
 
 async function get_word() {
-    // Ensure that the retrieved word has a definition.
+    // Ensure that there a no spaces in the word retrieved.
+    // Also ensure that the retrieved word has a definition.
     // The do-while loop will ensure that the code runs at least just once,
     // thereby replacing the word when running a new game.
     do {
@@ -329,7 +330,7 @@ async function get_word() {
                     .then(response => response.json())
                     .then(response => DEFINITION = response.definitions.length != 0 ?  response.definitions[0].definition : '')
                     .catch(err => console.error(err));
-    } while (DEFINITION === '');
+    } while (!WORD.includes(' ') && DEFINITION === '');
 
     // Add word and definition to debug field.
     document.getElementById('word').innerHTML = WORD;
