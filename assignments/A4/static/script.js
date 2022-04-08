@@ -217,6 +217,10 @@ async function check_key(e) {
     
                         // Pass keys from ROW_KEYS to USED_KEYS.
                         consolidate_keys();
+
+                        // If on mobile, clear input bar for next word.
+                        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+                            document.getElementById('mobile_input').value = '';
                     }
                         
                     display_GUI();
