@@ -12,8 +12,8 @@ button, input[type='text'] {
     height: 25px;
 }
 
-ul {
-    list-style-type: none;
+li {
+    margin-bottom: 10px;
 }
 
 table {
