@@ -1,7 +1,15 @@
 body {
-    background-color: #2c2c2c;
     color: #FFFFFF;
     font-family: monospace;
+}
+
+button, input[type='text'] {
+    background: none;
+    border: 2px solid #FFFFFF;
+    border-radius: 5px;
+    color: #FFFFFF;
+    font-family: monospace;
+    height: 25px;
 }
 
 ul {
@@ -54,18 +62,25 @@ table {
 }
 
 .float_child {
-    width: 50%;
     float: left;
+    width: 50%;
 }
 
 .score_box {
-    border: 1px solid white;
+    border: 1px solid #FFFFFF;
     padding: 20px 0px;
 }
 
-@media (max-width: 730px) {
+@media (max-width: 420px) {
+    .cell {
+        margin: 5px;
+        padding: 5px;
+    }
+}
+
+@media (max-width: 800px) {
     .float_child {
-        width: 100%;
         float: none;
+        width: 100%;
     }
 }

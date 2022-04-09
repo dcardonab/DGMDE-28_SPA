@@ -343,6 +343,13 @@ async function get_word() {
 
 
 function new_game(debug) {
+    // Check if player is on mobile device. If so, add event handlers to display the keyboard.
+    // This is important since the app does not rely on an input field on the computer.
+    // REF: https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+        // Show field to get keyboard input
+        display_element('mobile', 'block');
+
     // Reset arrays with used keys.
     USED_KEYS = [];
     ROW_KEYS = [];
@@ -385,13 +392,6 @@ function set_event_listeners() {
     // the function needs to be included in the anonymous function.
     document.getElementById('new_game_button').addEventListener('click', () => new_game(false));
     document.getElementById('new_game_button_debug').addEventListener('click', () => new_game(true));
-
-    // Check if player is on mobile device. If so, add event handlers to display the keyboard.
-    // This is important since no keyboard field is being shown.
-    // REF: https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
-        // Show field to get keyboard input
-        display_element('mobile', 'block');
 }
 
 
